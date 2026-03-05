@@ -20,6 +20,6 @@ app.use("/api", require("./routes"));
 const connectDB = require("./config/db");
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => console.log(`Checkout server is running on ${PORT}`));

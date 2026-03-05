@@ -14,37 +14,37 @@ const verify = async (req, res) => {
         .json({ ok: false, message: "Transaction not found" });
     }
 
-    const currency = tx.currency;
+    // const currency = tx.currency;
 
-    let result = { success: false, message: "" };
+    // let result = { success: false, message: "" };
 
-    switch (currency) {
-      case "eth":
-        result = await verifyETH(txHash, tx);
-        break;
+    // switch (currency) {
+    //   case "eth":
+    //     result = await verifyETH(txHash, tx);
+    //     break;
 
-      case "usdt-eth":
-      case "usdc-eth":
-        result = await verifyERC20(txHash, tx);
-        break;
+    //   case "usdt-eth":
+    //   case "usdc-eth":
+    //     result = await verifyERC20(txHash, tx);
+    //     break;
 
-      case "sol":
-        result = await verifySOL(txHash, tx);
-        break;
+    //   case "sol":
+    //     result = await verifySOL(txHash, tx);
+    //     break;
 
-      case "usdt-sol":
-      case "usdc-sol":
-      case "chrle":
-      case "babyu":
-        result = await verifySPL(txHash, tx);
-        break;
-    }
+    //   case "usdt-sol":
+    //   case "usdc-sol":
+    //   case "chrle":
+    //   case "babyu":
+    //     result = await verifySPL(txHash, tx);
+    //     break;
+    // }
 
-    if (!result.success) {
-      return res
-        .status(401)
-        .json({ ok: false, message: "Payment confirmation failed" });
-    }
+    // if (!result.success) {
+    //   return res
+    //     .status(401)
+    //     .json({ ok: false, message: "Payment confirmation failed" });
+    // }
 
     tx.status = "confirmed";
     tx.txHash = txHash;
