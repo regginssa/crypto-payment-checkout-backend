@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Mini Cryptocurrency checkout backend based on Charlie Unicorn AI ecosystem",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "charlieunicornai",
+    "crypto",
+    "cryptocurrency",
+    "checkout",
+    "charlie"
+  ],
+  "author": "charlieunicornai",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "ethers": "^6.16.0",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.4"
+  }
+}
