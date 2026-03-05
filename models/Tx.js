@@ -20,6 +20,7 @@ const TxSchema = new Schema(
       ],
     },
     webhookUrl: { type: String, required: true },
+    metadata: { type: Object },
   },
   { timestamps: true },
 );

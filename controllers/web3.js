@@ -1,6 +1,7 @@
 const Tx = require("../models/Tx");
 const { verifyETH, verifyERC20 } = require("../utils/eth");
 const { verifySOL, verifySPL } = require("../utils/sol");
+const { triggerWebhook } = require("../utils/webhook");
 
 const verify = async (req, res) => {
   try {
@@ -16,21 +17,26 @@ const verify = async (req, res) => {
     const currency = tx.currency;
 
     let result = { success: false, message: "" };
+
     switch (currency) {
       case "eth":
         result = await verifyETH(txHash, tx);
         break;
-      case "usdt-eth" | "usdc-eth":
+
+      case "usdt-eth":
+      case "usdc-eth":
         result = await verifyERC20(txHash, tx);
         break;
+
       case "sol":
         result = await verifySOL(txHash, tx);
         break;
-      case "usdt-sol" | "usdc-sol" | "chrle" | "babyu":
-        result = await verifySPL(txHash, tx);
-        break;
 
-      default:
+      case "usdt-sol":
+      case "usdc-sol":
+      case "chrle":
+      case "babyu":
+        result = await verifySPL(txHash, tx);
         break;
     }
 
@@ -41,7 +47,10 @@ const verify = async (req, res) => {
     }
 
     tx.status = "confirmed";
+    tx.txHash = txHash;
     await tx.save();
+
+    triggerWebhook(tx);
 
     res.json({ ok: true, data: tx });
   } catch (error) {
