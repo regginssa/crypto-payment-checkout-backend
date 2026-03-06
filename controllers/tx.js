@@ -10,6 +10,33 @@ async function getOne(req, res) {
   }
 }
 
+async function search(req, res) {
+  try {
+    const { amount, currency, metadata, webhookUrl, redirectUrl } = req.body;
+
+    const tx = await Tx.findOne({
+      amount,
+      currency,
+      metadata,
+      webhookUrl,
+      redirectUrl,
+    });
+
+    if (!tx) return res.json({ ok: false, message: "Transaction not found" });
+
+    if (tx.txHash && tx.txHash !== "") {
+      return res.json({
+        ok: false,
+        message: "Already confirmed",
+      });
+    }
+
+    res.json({ ok: true, data: tx });
+  } catch (error) {
+    res.status(500).json({ ok: false, message: "Internal server error" });
+  }
+}
+
 async function create(req, res) {
   try {
     const tx = await Tx.create(req.body);
@@ -46,4 +73,4 @@ async function remove(req, res) {
   }
 }
 
-module.exports = { getOne, create, update, remove };
+module.exports = { getOne, search, create, update, remove };
